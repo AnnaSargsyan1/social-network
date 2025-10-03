@@ -31,7 +31,7 @@ export const SinglePost = () => {
     if (!post) {
         return <Loader />
     }
-    return <div className="min-h-screen bg-gradient-to-br from-gray-950 via-black to-gray-900 text-white px-4 py-6 flex justify-center">
+    return <div className="min-h-screen text-white px-4 py-6 flex justify-center">
     <div className="w-full max-w-2xl bg-gray-900/80 backdrop-blur-xl rounded-2xl shadow-2xl overflow-hidden">
       
       {/* Post Image */}
