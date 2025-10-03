@@ -4,7 +4,7 @@ import { Axios } from "../api";
 import { IResponse } from "../../types";
 
 export const useHttp = <T = unknown>(url: string, options: AxiosRequestConfig) => {
-	const [loading, setLoading] = useState<boolean>(false);
+	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState("");
 	const [data, setData] = useState<T | null>(null);
 
