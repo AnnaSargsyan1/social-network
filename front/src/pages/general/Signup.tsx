@@ -1,15 +1,22 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
-import { IResponse, NewUser } from "../../types.ts";
+import { Link, useNavigate, useOutletContext } from "react-router-dom";
+import { IContext, IResponse, NewUser } from "../../types.ts";
 import { Axios } from "../../lib/api.ts";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const Signup = () => {
     const { register, handleSubmit, formState: { errors } } = useForm<NewUser>()
     const [error, setError] = useState("")
 
     const navigate = useNavigate()
+    const { account } = useOutletContext<IContext>();
+
+    useEffect(() => {
+        if (account) {
+            navigate("/profile");
+        }
+    }, [account, navigate]);
 
     const handleSignup: SubmitHandler<NewUser> = data => {
         Axios

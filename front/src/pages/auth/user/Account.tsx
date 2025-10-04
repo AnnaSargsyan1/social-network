@@ -10,12 +10,12 @@ import axios from "axios";
 
 export const Account = () => {
   const { id } = useParams();
-  const [isFollowing, setIsFollowing] = useState(false);
   const navigate = useNavigate();
 
   const { loading, data: account, error, refetch } = useHttp<IAccount>("/account/" + id, { method: "GET"});
 
   useEffect(() => {
+    console.log(account);
     if (!loading && !account) {
       navigate("/profile");
     }
@@ -26,7 +26,6 @@ export const Account = () => {
     Axios
       .post<IResponse<IAccount>>(`/account/follow/${id}`)
       .then(() => {
-        setIsFollowing(!isFollowing);
         refetch();
       })
       .catch(error => {
@@ -82,16 +81,20 @@ export const Account = () => {
               className={`
                 mt-6 px-8 py-2 rounded-full font-semibold text-sm
                 transition-all duration-300 shadow-md
-                ${
-                  isFollowing
-                    ? "bg-gray-700 hover:bg-gray-600 text-white"
-                    : "bg-gradient-to-r from-blue-500 to-purple-600 hover:from-purple-600 hover:to-blue-500 text-white"
-                }
+                ${account.connection.following || (account.isPrivate && account.connection?.requested)
+                  ? "bg-gray-700 hover:bg-gray-600 text-white"
+                  : "bg-gradient-to-r from-blue-500 to-purple-600 hover:from-purple-600 hover:to-blue-500 text-white"}
                 ${loading ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
               `}
             >
-              {loading ? "Loading..." : (isFollowing ? "Unfollow" : (account.isPrivate ? (account.connection.requested ? "Cancel Request" : "Request") : "Follow"))}
+              {loading
+                ? "Loading..."
+                : account.connection.following ? 
+                "Unfollow" 
+                : account.isPrivate ? account.connection.requested ? "Cancel Request" :  "Request" : "Follow"
+              }
             </button>
+
 
             {/* Private Account Notice */}
             {/* {account.isPrivate && (

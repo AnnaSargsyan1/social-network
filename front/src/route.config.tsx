@@ -7,6 +7,7 @@ import { Layout } from "./pages/Layout.tsx";
 import { Search } from "./pages/auth/Search.tsx";
 import { Account } from "./pages/auth/user/Account.tsx";
 import { SinglePost } from "./pages/auth/posts/SinglePost.tsx";
+import { Notifications } from "./pages/auth/user/Notifications.tsx";
 
 export const router = createBrowserRouter([
   {
@@ -27,6 +28,7 @@ export const router = createBrowserRouter([
           { index: true, element: <Profile /> },
           { path: ":id", element: <Account /> },
           { path: "settings", element: <Settings /> },
+          { path: "notifications", element: <Notifications/> },
           { path: "search", element: <Search /> }
         ]
       }

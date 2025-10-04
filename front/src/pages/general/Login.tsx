@@ -1,15 +1,22 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
-import type { AuthUser, IResponse } from "../../types.ts";
+import { Link, useNavigate, useOutletContext } from "react-router-dom";
+import type { AuthUser, IResponse, IContext } from "../../types.ts";
 import { Axios } from "../../lib/api.ts";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const Login = () => {
   const { register, handleSubmit, formState: { errors } } = useForm<AuthUser>()
   const [error, setError] = useState("")
   const navigate = useNavigate()
+  const { account } = useOutletContext<IContext>();
 
+  useEffect(() => {
+      if (account) {
+          navigate("/profile");
+      }
+  }, [account, navigate]);
+  
   const handleLogin: SubmitHandler<AuthUser> = (data) => {
     Axios
       .post("/login", data)

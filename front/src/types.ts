@@ -25,6 +25,11 @@ export interface IPost {
     isLiked?: boolean;
 };
 
+export interface IRequest {
+    id: number;
+    user: IAccount;
+}
+
 export interface IConnection {
     following: boolean;
     followsMe: boolean;

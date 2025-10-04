@@ -11,6 +11,7 @@ export const Settings = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
+    localStorage.removeItem("account");
     Axios.post("/logout").then(() => navigate("/login"));
   };
   return (

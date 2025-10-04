@@ -23,8 +23,7 @@ export const UpdatePrivacy = () => {
       });
   };
 
-  return (
-    <div className="bg-gray-900/80 backdrop-blur-xl rounded-2xl shadow-2xl p-6 flex flex-col items-center">
+  return account && <div className="bg-gray-900/80 backdrop-blur-xl rounded-2xl shadow-2xl p-6 flex flex-col items-center">
       <h2 className="text-xl font-bold text-white mb-4">Account Privacy</h2>
       { error && <p className="text-red-400 my-2">{error}</p>}
       {/* Toggle */}
@@ -44,5 +43,4 @@ export const UpdatePrivacy = () => {
         Account is {account.isPrivate ? "private" : "public"}
       </p>
     </div>
-  );
 };
