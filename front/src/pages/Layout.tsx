@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Outlet, NavLink, useNavigate, useLocation, Link } from "react-router-dom";
+import { Outlet, NavLink, useNavigate, useLocation } from "react-router-dom";
 import { Axios } from "../lib/api.ts";
 import { IRequest, IResponse, IUser } from "../types.ts";
 import { FaBell } from "react-icons/fa";
@@ -13,24 +13,29 @@ export const Layout = () => {
 
   const { data: requests } = useHttp<IRequest[]>("/requests", { method: "GET" });
 
+  const PUBLIC_ROUTES = ["/login", "/"];
   useEffect(() => {
+
     console.log("layout renders");
     const stored = localStorage.getItem("account");
     if (stored) {
       setAccount(JSON.parse(stored));
       return;
     }
+    if (PUBLIC_ROUTES.includes(location.pathname)) {
+      return;
+    } 
     console.log("sending a request...");
-  
+    
     Axios.get<IResponse<IUser>>("/verify")
-      .then(response => {
-        setAccount(response.data.payload);
-        localStorage.setItem("account", JSON.stringify(response.data.payload));
-      })
-      .catch(() => navigate("/login"));
+    .then(response => {
+      setAccount(response.data.payload);
+      localStorage.setItem("account", JSON.stringify(response.data.payload));
+    })
+    .catch(() => navigate("/login"));
+    
   }, [location.pathname]);
   
-  const dropdownRef = useRef<HTMLDivElement>(null);
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
     `px-3 py-2 rounded-md text-sm font-medium transition ${
       isActive ? "bg-gradient-to-r from-blue-500 to-purple-500" : "hover:bg-gray-700"
